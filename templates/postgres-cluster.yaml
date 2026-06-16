@@ -1,0 +1,29 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-db
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: {{ .Values.db.replicas }}
+  imageName: ghcr.io/cloudnative-pg/postgresql:{{ .Values.db.version }}
+
+  storage:
+    size: {{ .Values.storage.size }}
+    storageClass: {{ .Values.storage.className }}
+  
+  certificates:
+    serverTLSSecret: "{{ .Release.Name }}-wildcard-tls"
+    serverCASecret: "{{ .Release.Name }}-wildcard-tls"
+  
+  postgresql:
+    parameters:
+      ssl_ciphers: "HIGH:!aNULL:!MD5"
+
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: required
+
+  bootstrap:
+    initdb:
+      database: {{ .Values.db.name }}
+      owner: {{ .Values.db.user }}
