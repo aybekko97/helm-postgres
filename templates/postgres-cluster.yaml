@@ -27,3 +27,7 @@ spec:
     initdb:
       database: {{ .Values.db.name }}
       owner: {{ .Values.db.user }}
+
+  podSecurityContext:
+    fsGroup: 26         # 26 is the default postgres UID/GID in CNPG
+    fsGroupChangePolicy: "Always"
