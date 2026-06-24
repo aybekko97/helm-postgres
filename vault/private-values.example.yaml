@@ -1,0 +1,8 @@
+# Copy this file to private-values.yaml and replace these placeholder values.
+# Values must be base64-encoded because they are rendered into a Kubernetes TLS Secret.
+ingress:
+  tls:
+    # Base64-encoded certificate chain for vault.k8s.ibek.dev.
+    certificate: "BASE64_ENCODED_TLS_CERTIFICATE"
+    # Base64-encoded private key for vault.k8s.ibek.dev.
+    privateKey: "BASE64_ENCODED_TLS_PRIVATE_KEY"

@@ -1,0 +1,10 @@
+kube-prometheus-stack:
+  grafana:
+    # Copy this file to private-values.yaml and replace this value.
+    adminPassword: "change-me"
+
+ingress:
+  tls:
+    certificate: "BASE64_ENCODED_TLS_CERTIFICATE"
+    ca_certificate: "BASE64_ENCODED_CA_CERTIFICATE"
+    privateKey: "BASE64_ENCODED_TLS_PRIVATE_KEY"

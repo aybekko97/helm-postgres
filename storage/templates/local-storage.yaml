@@ -1,0 +1,39 @@
+{{- if .Values.enabled }}
+{{- range $pool := .Values.pools }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ $pool.storageClassName }}
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+{{- range $node := $.Values.nodes }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $pool.name }}-{{ $node }}
+  labels:
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    local-storage-pool: {{ $pool.name }}
+spec:
+  capacity:
+    storage: {{ $pool.size }}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ $pool.storageClassName }}
+  local:
+    path: {{ $pool.hostPath }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - {{ $node }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

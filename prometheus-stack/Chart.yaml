@@ -1,0 +1,10 @@
+apiVersion: v2
+name: prometheus-stack-local
+description: Local kube-prometheus-stack deployment with Grafana HTTPS ingress
+type: application
+version: 0.1.0
+appVersion: "0.91.0"
+dependencies:
+  - name: kube-prometheus-stack
+    version: 86.2.3
+    repository: https://prometheus-community.github.io/helm-charts

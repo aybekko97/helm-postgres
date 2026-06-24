@@ -1,0 +1,10 @@
+apiVersion: v2
+name: vault-local
+description: Local Vault deployment with HTTPS ingress
+type: application
+version: 0.1.0
+appVersion: "1.21"
+dependencies:
+  - name: vault
+    version: 0.32.0
+    repository: https://helm.releases.hashicorp.com

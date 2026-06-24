@@ -1,0 +1,6 @@
+# Copy this file to private-values.yaml and replace these placeholder values.
+# Values must be base64-encoded because they are rendered into a Kubernetes TLS Secret.
+tls:
+  certificate: "BASE64_ENCODED_TLS_CERTIFICATE"
+  ca_certificate: "BASE64_ENCODED_CA_CERTIFICATE"
+  privateKey: "BASE64_ENCODED_TLS_PRIVATE_KEY"

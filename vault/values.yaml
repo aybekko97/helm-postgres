@@ -1,0 +1,48 @@
+vault:
+  global:
+    enabled: true
+    # TLS is terminated by the local ingress template.
+    tlsDisable: true
+
+  server:
+    enabled: true
+    replicas: 3
+
+    dataStorage:
+      enabled: true
+      size: 5Gi
+      storageClass: local-vault
+      mountPath: /vault/data
+
+    ha:
+      enabled: true
+      replicas: 3
+      raft:
+        enabled: true
+        setNodeId: true
+        config: |
+          ui = true
+
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+
+          storage "raft" {
+            path = "/vault/data"
+          }
+
+    service:
+      enabled: true
+      type: ClusterIP
+
+ingress:
+  className: nginx
+  host: vault.k8s.ibek.dev
+  tlsSecretName: vault-ingress-tls
+  tls:
+    certificate: ""
+    privateKey: ""
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"

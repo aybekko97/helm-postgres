@@ -1,0 +1,7 @@
+# Local secret overrides
+postgres/private-values.yaml
+prometheus-stack/private-values.yaml
+vault/private-values.yaml
+
+# Packaged Helm charts
+*.tgz

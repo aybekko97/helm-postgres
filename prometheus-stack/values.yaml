@@ -1,0 +1,48 @@
+kube-prometheus-stack:
+  prometheusOperator:
+    enabled: true
+
+  prometheus:
+    enabled: true
+    prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: local-prometheus
+            accessModes: [ReadWriteOnce]
+            resources:
+              requests:
+                storage: 5Gi
+      podMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelectorNilUsesHelmValues: false
+
+  grafana:
+    enabled: true
+    service:
+      type: ClusterIP
+    persistence:
+      enabled: true
+      storageClassName: local-grafana
+      size: 2Gi
+
+  alertmanager:
+    alertmanagerSpec:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: local-alertmanager
+            accessModes: [ReadWriteOnce]
+            resources:
+              requests:
+                storage: 2Gi
+
+ingress:
+  className: nginx
+  host: grafana.ibek.dev
+  tlsSecretName: grafana-ingress-tls
+  tls:
+    certificate: ""
+    ca_certificate: ""
+    privateKey: ""
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"

@@ -4,12 +4,12 @@ metadata:
   name: {{ .Release.Name }}-db
   namespace: {{ .Release.Namespace }}
 spec:
-  instances: {{ .Values.db.replicas }}
-  imageName: ghcr.io/cloudnative-pg/postgresql:{{ .Values.db.version }}
+  instances: {{ .Values.postgres.replicas }}
+  imageName: ghcr.io/cloudnative-pg/postgresql:{{ .Values.postgres.version }}
 
   storage:
-    size: {{ .Values.storage.size }}
-    storageClass: {{ .Values.storage.className }}
+    size: {{ .Values.postgres.storage.size }}
+    storageClass: {{ .Values.postgres.storage.className }}
   
   certificates:
     serverTLSSecret: "{{ .Release.Name }}-wildcard-tls"
@@ -25,8 +25,8 @@ spec:
 
   bootstrap:
     initdb:
-      database: {{ .Values.db.name }}
-      owner: {{ .Values.db.user }}
+      database: {{ .Values.postgres.database }}
+      owner: {{ .Values.postgres.user }}
 
   podSecurityContext:
     fsGroup: 26         # 26 is the default postgres UID/GID in CNPG

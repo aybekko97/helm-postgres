@@ -1,0 +1,15 @@
+postgres:
+  storage:
+    className: local-postgres
+    size: 5Gi
+  replicas: 3
+  version: "16"
+  database: mydb
+  user: myuser
+  nodePort: 31432
+
+# Supply these with private-values.yaml; never commit private key material.
+tls:
+  certificate: ""
+  ca_certificate: ""
+  privateKey: ""
